@@ -6,14 +6,14 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\MauticRecaptchaBundle\Tests;
+namespace MauticPlugin\MauticHcaptchaBundle\Tests;
 
 use Mautic\CoreBundle\Factory\ModelFactory;
 use Mautic\FormBundle\Event\ValidationEvent;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
-use MauticPlugin\MauticRecaptchaBundle\EventListener\FormSubscriber;
-use MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration;
-use MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient;
+use MauticPlugin\MauticHcaptchaBundle\EventListener\FormSubscriber;
+use MauticPlugin\MauticHcaptchaBundle\Integration\HcaptchaIntegration;
+use MauticPlugin\MauticHcaptchaBundle\Service\HcaptchaClient;
 use PHPUnit_Framework_MockObject_MockBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Mautic\FormBundle\Event\FormBuilderEvent;
@@ -21,7 +21,7 @@ use Mautic\FormBundle\Event\FormBuilderEvent;
 class FormSubscriberTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockBuilder|RecaptchaIntegration
+     * @var PHPUnit_Framework_MockObject_MockBuilder|HcaptchaIntegration
      */
     private $integration;
 
@@ -41,9 +41,9 @@ class FormSubscriberTest extends \PHPUnit_Framework_TestCase
     private $modelFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockBuilder|RecaptchaClient
+     * @var PHPUnit_Framework_MockObject_MockBuilder|HcaptchaClient
      */
-    private $recaptchaClient;
+    private $hcaptchaClient;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockBuilder|ValidationEvent
@@ -59,11 +59,11 @@ class FormSubscriberTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->integration       = $this->createMock(RecaptchaIntegration::class);
+        $this->integration       = $this->createMock(HcaptchaIntegration::class);
         $this->eventDispatcher   = $this->createMock(EventDispatcherInterface::class);
         $this->integrationHelper = $this->createMock(IntegrationHelper::class);
         $this->modelFactory      = $this->createMock(ModelFactory::class);
-        $this->recaptchaClient   = $this->createMock(RecaptchaClient::class);
+        $this->hcaptchaClient   = $this->createMock(HcaptchaClient::class);
         $this->validationEvent   = $this->createMock(ValidationEvent::class);
         $this->formBuildEvent    = $this->createMock(FormBuilderEvent::class);
 
@@ -78,7 +78,7 @@ class FormSubscriberTest extends \PHPUnit_Framework_TestCase
 
     public function testOnFormValidateSuccessful()
     {
-        $this->recaptchaClient->expects($this->once())
+        $this->hcaptchaClient->expects($this->once())
             ->method('verify')
             ->willReturn(true);
 
@@ -91,7 +91,7 @@ class FormSubscriberTest extends \PHPUnit_Framework_TestCase
 
     public function testOnFormValidateFailure()
     {
-        $this->recaptchaClient->expects($this->once())
+        $this->hcaptchaClient->expects($this->once())
             ->method('verify')
             ->willReturn(false);
 
@@ -108,7 +108,7 @@ class FormSubscriberTest extends \PHPUnit_Framework_TestCase
 
     public function testOnFormValidateWhenPluginIsNotInstalled()
     {
-        $this->recaptchaClient->expects($this->never())
+        $this->hcaptchaClient->expects($this->never())
             ->method('verify');
 
         $this->integrationHelper->expects($this->once())
@@ -120,7 +120,7 @@ class FormSubscriberTest extends \PHPUnit_Framework_TestCase
 
     public function testOnFormValidateWhenPluginIsNotConfigured()
     {
-        $this->recaptchaClient->expects($this->never())
+        $this->hcaptchaClient->expects($this->never())
             ->method('verify');
 
         $this->integrationHelper->expects($this->once())
@@ -134,11 +134,11 @@ class FormSubscriberTest extends \PHPUnit_Framework_TestCase
     {
         $this->formBuildEvent->expects($this->once())
             ->method('addFormField')
-            ->with('plugin.recaptcha');
+            ->with('plugin.hcaptcha');
 
         $this->formBuildEvent->expects($this->once())
             ->method('addValidator')
-            ->with('plugin.recaptcha.validator');
+            ->with('plugin.hcaptcha.validator');
 
         $this->integrationHelper->expects($this->once())
             ->method('getIntegrationObject')
@@ -180,7 +180,7 @@ class FormSubscriberTest extends \PHPUnit_Framework_TestCase
             $this->eventDispatcher,
             $this->integrationHelper,
             $this->modelFactory,
-            $this->recaptchaClient
+            $this->hcaptchaClient
         );
     }
 }

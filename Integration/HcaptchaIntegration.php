@@ -6,16 +6,16 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\MauticRecaptchaBundle\Integration;
+namespace MauticPlugin\MauticHcaptchaBundle\Integration;
 
 use Mautic\PluginBundle\Integration\AbstractIntegration;
 
 /**
- * Class RecaptchaIntegration.
+ * Class HcaptchaIntegration.
  */
-class RecaptchaIntegration extends AbstractIntegration
+class HcaptchaIntegration extends AbstractIntegration
 {
-    const INTEGRATION_NAME = 'Recaptcha';
+    const INTEGRATION_NAME = 'Hcaptcha';
 
     public function getName()
     {
@@ -24,7 +24,7 @@ class RecaptchaIntegration extends AbstractIntegration
 
     public function getDisplayName()
     {
-        return 'reCAPTCHA';
+        return 'hCaptcha';
     }
 
     public function getAuthenticationType()
@@ -35,8 +35,8 @@ class RecaptchaIntegration extends AbstractIntegration
     public function getRequiredKeyFields()
     {
         return [
-            'site_key'   => 'mautic.integration.recaptcha.site_key',
-            'secret_key' => 'mautic.integration.recaptcha.secret_key',
+            'site_key'   => 'mautic.integration.hcaptcha.site_key',
+            'secret_key' => 'mautic.integration.hcaptcha.secret_key',
         ];
     }
 }

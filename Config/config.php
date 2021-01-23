@@ -7,8 +7,8 @@
  */
 
 return [
-    'name'        => 'reCAPTCHA',
-    'description' => 'Enables reCAPTCHA integration.',
+    'name'        => 'hCaptcha',
+    'description' => 'Enables hCaptcha integration.',
     'version'     => '1.0',
     'author'      => 'Konstantin Scheumann',
 
@@ -18,34 +18,34 @@ return [
 
     'services' => [
         'events' => [
-            'mautic.recaptcha.event_listener.form_subscriber' => [
-                'class'     => \MauticPlugin\MauticRecaptchaBundle\EventListener\FormSubscriber::class,
+            'mautic.hcaptcha.event_listener.form_subscriber' => [
+                'class'     => \MauticPlugin\MauticHcaptchaBundle\EventListener\FormSubscriber::class,
                 'arguments' => [
                     'event_dispatcher',
                     'mautic.helper.integration',
                     'mautic.model.factory',
-                    'mautic.recaptcha.service.recaptcha_client'
+                    'mautic.hcaptcha.service.hcaptcha_client'
                 ],
             ],
-            'mautic.recaptcha.service.recaptcha_client' => [
-                'class'     => \MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient::class,
+            'mautic.hcaptcha.service.hcaptcha_client' => [
+                'class'     => \MauticPlugin\MauticHcaptchaBundle\Service\HcaptchaClient::class,
                 'arguments' => [
                     'mautic.helper.integration',
                 ],
             ],
         ],
         'forms' => [
-            'mautic.form.type.recaptcha' => [
-                'class' => \MauticPlugin\MauticRecaptchaBundle\Form\Type\RecaptchaType::class,
-                'alias' => 'recaptcha',
+            'mautic.form.type.hcaptcha' => [
+                'class' => \MauticPlugin\MauticHcaptchaBundle\Form\Type\HcaptchaType::class,
+                'alias' => 'hcaptcha',
             ],
         ],
         'models' => [
 
         ],
         'integrations' => [
-            'mautic.integration.recaptcha' => [
-                'class'     => \MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration::class,
+            'mautic.integration.hcaptcha' => [
+                'class'     => \MauticPlugin\MauticHcaptchaBundle\Integration\HcaptchaIntegration::class,
                 'arguments' => [
                 ],
             ],

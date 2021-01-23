@@ -6,15 +6,15 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\MauticRecaptchaBundle\Service;
+namespace MauticPlugin\MauticHcaptchaBundle\Service;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
-use MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration;
+use MauticPlugin\MauticHcaptchaBundle\Integration\HcaptchaIntegration;
 use Mautic\PluginBundle\Integration\AbstractIntegration;
 
-class RecaptchaClient extends CommonSubscriber
+class HcaptchaClient extends CommonSubscriber
 {
     const VERIFY_URL = 'https://hcaptcha.com/siteverify';
 
@@ -35,7 +35,7 @@ class RecaptchaClient extends CommonSubscriber
      */
     public function __construct(IntegrationHelper $integrationHelper)
     {
-        $integrationObject = $integrationHelper->getIntegrationObject(RecaptchaIntegration::INTEGRATION_NAME);
+        $integrationObject = $integrationHelper->getIntegrationObject(HcaptchaIntegration::INTEGRATION_NAME);
 
         if ($integrationObject instanceof AbstractIntegration) {
             $keys            = $integrationObject->getKeys();

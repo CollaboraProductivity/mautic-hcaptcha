@@ -6,7 +6,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\MauticRecaptchaBundle\EventListener;
+namespace MauticPlugin\MauticHcaptchaBundle\EventListener;
 
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\CoreBundle\Factory\ModelFactory;
@@ -17,9 +17,9 @@ use Mautic\LeadBundle\Event\LeadEvent;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\LeadBundle\Model\LeadModel;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
-use MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration;
-use MauticPlugin\MauticRecaptchaBundle\RecaptchaEvents;
-use MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient;
+use MauticPlugin\MauticHcaptchaBundle\Integration\HcaptchaIntegration;
+use MauticPlugin\MauticHcaptchaBundle\HcaptchaEvents;
+use MauticPlugin\MauticHcaptchaBundle\Service\HcaptchaClient;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Mautic\PluginBundle\Integration\AbstractIntegration;
 
@@ -38,9 +38,9 @@ class FormSubscriber extends CommonSubscriber
     protected $modelFactory;
 
     /**
-     * @var RecaptchaClient
+     * @var HcaptchaClient
      */
-    protected $recaptchaClient;
+    protected $hcaptchaClient;
 
     /**
      * @var string
@@ -55,24 +55,24 @@ class FormSubscriber extends CommonSubscriber
     /**
      * @var boolean
      */
-    private $recaptchaIsConfigured = false;
+    private $hcaptchaIsConfigured = false;
 
     /**
      * @param EventDispatcherInterface $eventDispatcher
      * @param IntegrationHelper $integrationHelper
      * @param ModelFactory $modelFactory
-     * @param RecaptchaClient $recaptchaClient
+     * @param HcaptchaClient $hcaptchaClient
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         IntegrationHelper $integrationHelper,
         ModelFactory $modelFactory,
-        RecaptchaClient $recaptchaClient
+        HcaptchaClient $hcaptchaClient
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->modelFactory    = $modelFactory;
-        $this->recaptchaClient = $recaptchaClient;
-        $integrationObject     = $integrationHelper->getIntegrationObject(RecaptchaIntegration::INTEGRATION_NAME);
+        $this->hcaptchaClient = $hcaptchaClient;
+        $integrationObject     = $integrationHelper->getIntegrationObject(HcaptchaIntegration::INTEGRATION_NAME);
         
         if ($integrationObject instanceof AbstractIntegration) {
             $keys            = $integrationObject->getKeys();
@@ -80,7 +80,7 @@ class FormSubscriber extends CommonSubscriber
             $this->secretKey = isset($keys['secret_key']) ? $keys['secret_key'] : null;
 
             if ($this->siteKey && $this->secretKey) {
-                $this->recaptchaIsConfigured = true;
+                $this->hcaptchaIsConfigured = true;
             }
         }
     }
@@ -92,7 +92,7 @@ class FormSubscriber extends CommonSubscriber
     {
         return [
             FormEvents::FORM_ON_BUILD         => ['onFormBuild', 0],
-            RecaptchaEvents::ON_FORM_VALIDATE => ['onFormValidate', 0],
+            HcaptchaEvents::ON_FORM_VALIDATE => ['onFormValidate', 0],
         ];
     }
 
@@ -101,14 +101,14 @@ class FormSubscriber extends CommonSubscriber
      */
     public function onFormBuild(FormBuilderEvent $event)
     {
-        if (!$this->recaptchaIsConfigured) {
+        if (!$this->hcaptchaIsConfigured) {
             return;
         }
 
-        $event->addFormField('plugin.recaptcha', [
-            'label'          => 'mautic.plugin.actions.recaptcha',
-            'formType'       => 'recaptcha',
-            'template'       => 'MauticRecaptchaBundle:Integration:recaptcha.html.php',
+        $event->addFormField('plugin.hcaptcha', [
+            'label'          => 'mautic.plugin.actions.hcaptcha',
+            'formType'       => 'hcaptcha',
+            'template'       => 'MauticHcaptchaBundle:Integration:hcaptcha.html.php',
             'builderOptions' => [
                 'addLeadFieldList' => false,
                 'addIsRequired'    => false,
@@ -118,9 +118,9 @@ class FormSubscriber extends CommonSubscriber
             'site_key' => $this->siteKey,
         ]);
 
-        $event->addValidator('plugin.recaptcha.validator', [
-            'eventName' => RecaptchaEvents::ON_FORM_VALIDATE,
-            'fieldType' => 'plugin.recaptcha',
+        $event->addValidator('plugin.hcaptcha.validator', [
+            'eventName' => HcaptchaEvents::ON_FORM_VALIDATE,
+            'fieldType' => 'plugin.hcaptcha',
         ]);
     }
 
@@ -129,15 +129,15 @@ class FormSubscriber extends CommonSubscriber
      */
     public function onFormValidate(ValidationEvent $event)
     {
-        if (!$this->recaptchaIsConfigured) {
+        if (!$this->hcaptchaIsConfigured) {
             return;
         }
 
-        if ($this->recaptchaClient->verify($event->getValue())) {
+        if ($this->hcaptchaClient->verify($event->getValue())) {
             return;
         }
 
-        $event->failedValidation($this->translator === null ? 'reCAPTCHA was not successful.' : $this->translator->trans('mautic.integration.recaptcha.failure_message'));
+        $event->failedValidation($this->translator === null ? 'hCaptcha was not successful.' : $this->translator->trans('mautic.integration.hcaptcha.failure_message'));
 
         $this->eventDispatcher->addListener(LeadEvents::LEAD_POST_SAVE, function (LeadEvent $event) {
             if ($event->isNew()){

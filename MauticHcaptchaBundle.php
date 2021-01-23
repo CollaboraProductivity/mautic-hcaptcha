@@ -6,13 +6,13 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\MauticRecaptchaBundle;
+namespace MauticPlugin\MauticHcaptchaBundle;
 
 use Mautic\PluginBundle\Bundle\PluginBundleBase;
 
 /**
- * Class MauticRecaptchaBundle.
+ * Class MauticHcaptchaBundle.
  */
-class MauticRecaptchaBundle extends PluginBundleBase
+class MauticHcaptchaBundle extends PluginBundleBase
 {
 }
