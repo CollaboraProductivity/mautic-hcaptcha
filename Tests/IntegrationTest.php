@@ -6,25 +6,25 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\MauticRecaptchaBundle\Tests;
+namespace MauticPlugin\MauticHcaptchaBundle\Tests;
 
 use Mautic\CoreBundle\Factory\ModelFactory;
 use Mautic\FormBundle\Event\ValidationEvent;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
-use MauticPlugin\MauticRecaptchaBundle\EventListener\FormSubscriber;
-use MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration;
-use MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient;
+use MauticPlugin\MauticHcaptchaBundle\EventListener\FormSubscriber;
+use MauticPlugin\MauticHcaptchaBundle\Integration\HcaptchaIntegration;
+use MauticPlugin\MauticHcaptchaBundle\Service\HcaptchaClient;
 use PHPUnit_Framework_MockObject_MockBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
 
-    const RECAPTCHA_TESTING_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
-    const RECAPTCHA_TESTING_SECRET_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
+    const HCAPTCHA_TESTING_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+    const HCAPTCHA_TESTING_SECRET_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
 
     /**
-     * @var RecaptchaIntegration
+     * @var HcaptchaIntegration
      */
     protected $integration;
 
@@ -42,13 +42,13 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->integration = $this->getMockBuilder(RecaptchaIntegration::class)
+        $this->integration = $this->getMockBuilder(HcaptchaIntegration::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->integration
             ->method('getKeys')
-            ->willReturn(['site_key' => self::RECAPTCHA_TESTING_SITE_KEY, 'secret_key' => self::RECAPTCHA_TESTING_SECRET_KEY]);
+            ->willReturn(['site_key' => self::HCAPTCHA_TESTING_SITE_KEY, 'secret_key' => self::HCAPTCHA_TESTING_SECRET_KEY]);
 
         $this->eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)
             ->disableOriginalConstructor()
@@ -90,7 +90,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             $this->eventDispatcher,
             $this->integrationHelper,
             $modelFactory,
-            new RecaptchaClient($this->integrationHelper)
+            new HcaptchaClient($this->integrationHelper)
         );
         $formSubscriber->onFormValidate($validationEvent);
     }

@@ -1,6 +1,6 @@
 {
-    "name": "koco/mautic-recaptcha-bundle",
-    "description": "This plugin brings reCAPTCHA integration to mautic.",
+    "name": "collabora/mautic2-hcaptcha",
+    "description": "This plugin brings hCaptcha integration to mautic.",
     "type": "mautic-plugin",
     "require": {
         "mautic/composer-plugin": "^1.0"
@@ -10,6 +10,10 @@
         {
             "name": "Konstantin Scheumann",
             "email": "info@konstantin.codes"
+        },
+        {
+            "name": "William Gathoye",
+            "email": "hello@collaboraoffice.com"
         }
     ]
 }

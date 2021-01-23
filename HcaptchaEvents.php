@@ -6,9 +6,9 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\MauticRecaptchaBundle;
+namespace MauticPlugin\MauticHcaptchaBundle;
 
-final class RecaptchaEvents
+final class HcaptchaEvents
 {
-    const ON_FORM_VALIDATE = 'mautic.plugin.recaptcha.on_form_validate';
+    const ON_FORM_VALIDATE = 'mautic.plugin.hcaptcha.on_form_validate';
 }

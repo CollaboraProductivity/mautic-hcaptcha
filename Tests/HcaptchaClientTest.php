@@ -6,14 +6,14 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\MauticRecaptchaBundle\Tests;
+namespace MauticPlugin\MauticHcaptchaBundle\Tests;
 
 use PHPUnit_Framework_MockObject_MockBuilder;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
-use MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration;
-use MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient;
+use MauticPlugin\MauticHcaptchaBundle\Integration\HcaptchaIntegration;
+use MauticPlugin\MauticHcaptchaBundle\Service\HcaptchaClient;
 
-class RecaptchaClientTest extends \PHPUnit_Framework_TestCase
+class HcaptchaClientTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockBuilder|IntegrationHelper
@@ -21,7 +21,7 @@ class RecaptchaClientTest extends \PHPUnit_Framework_TestCase
     private $integrationHelper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockBuilder|RecaptchaIntegration
+     * @var PHPUnit_Framework_MockObject_MockBuilder|HcaptchaIntegration
      */
     private $integration;
 
@@ -30,7 +30,7 @@ class RecaptchaClientTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->integrationHelper = $this->createMock(IntegrationHelper::class);
-        $this->integration       = $this->createMock(RecaptchaIntegration::class);
+        $this->integration       = $this->createMock(HcaptchaIntegration::class);
     }
 
     public function testVerifyWhenPluginIsNotInstalled()
@@ -42,7 +42,7 @@ class RecaptchaClientTest extends \PHPUnit_Framework_TestCase
         $this->integration->expects($this->never())
             ->method('getKeys');
 
-        $this->createRecaptchaClient()->verify('');
+        $this->createHcaptchaClient()->verify('');
     }
 
     public function testVerifyWhenPluginIsNotConfigured()
@@ -55,15 +55,15 @@ class RecaptchaClientTest extends \PHPUnit_Framework_TestCase
             ->method('getKeys')
             ->willReturn(['site_key' => 'test', 'secret_key' => 'test']);
 
-        $this->createRecaptchaClient()->verify('');
+        $this->createHcaptchaClient()->verify('');
     }
 
     /**
-     * @return RecaptchaClient
+     * @return HcaptchaClient
      */
-    private function createRecaptchaClient()
+    private function createHcaptchaClient()
     {
-        return new RecaptchaClient(
+        return new HcaptchaClient(
             $this->integrationHelper
         );
     }

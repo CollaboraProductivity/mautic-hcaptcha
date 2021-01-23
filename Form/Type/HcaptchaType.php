@@ -6,16 +6,16 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace MauticPlugin\MauticRecaptchaBundle\Form\Type;
+namespace MauticPlugin\MauticHcaptchaBundle\Form\Type;
 
 use Mautic\CoreBundle\Form\Type\FormButtonsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class RecaptchaType.
+ * Class HcaptchaType.
  */
-class RecaptchaType extends AbstractType
+class HcaptchaType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -46,6 +46,6 @@ class RecaptchaType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'recaptcha';
+        return 'hcaptcha';
     }
 }

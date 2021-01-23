@@ -7,10 +7,10 @@
  */
 
 return [
-    'name'        => 'reCAPTCHA',
-    'description' => 'Enables reCAPTCHA integration.',
+    'name'        => 'hCaptcha',
+    'description' => 'Enables hCaptcha integration.',
     'version'     => '1.0',
-    'author'      => 'Konstantin Scheumann',
+    'author'      => 'Konstantin Scheumann and Collabora',
 
     'routes' => [
 
@@ -18,12 +18,12 @@ return [
 
     'services' => [
         'events' => [
-            'mautic.recaptcha.event_listener.form_subscriber' => [
-                'class'     => \MauticPlugin\MauticRecaptchaBundle\EventListener\FormSubscriber::class,
+            'mautic.hcaptcha.event_listener.form_subscriber' => [
+                'class'     => \MauticPlugin\MauticHcaptchaBundle\EventListener\FormSubscriber::class,
                 'arguments' => [
                     'event_dispatcher',
                     'mautic.helper.integration',
-                    'mautic.recaptcha.service.recaptcha_client',
+                    'mautic.hcaptcha.service.hcaptcha_client',
                     'mautic.lead.model.lead',
                     'translator'
                 ],
@@ -33,16 +33,16 @@ return [
 
         ],
         'others'=>[
-            'mautic.recaptcha.service.recaptcha_client' => [
-                'class'     => \MauticPlugin\MauticRecaptchaBundle\Service\RecaptchaClient::class,
+            'mautic.hcaptcha.service.hcaptcha_client' => [
+                'class'     => \MauticPlugin\MauticHcaptchaBundle\Service\HcaptchaClient::class,
                 'arguments' => [
                     'mautic.helper.integration',
                 ],
             ],
         ],
         'integrations' => [
-            'mautic.integration.recaptcha' => [
-                'class'     => \MauticPlugin\MauticRecaptchaBundle\Integration\RecaptchaIntegration::class,
+            'mautic.integration.hcaptcha' => [
+                'class'     => \MauticPlugin\MauticHcaptchaBundle\Integration\HcaptchaIntegration::class,
                 'arguments' => [
                     'event_dispatcher',
                     'mautic.helper.cache_storage',
@@ -68,3 +68,4 @@ return [
 
     ],
 ];
+
