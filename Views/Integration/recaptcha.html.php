@@ -33,14 +33,14 @@ $jsElement = <<<JSELEMENT
         document.getElementById("mauticform_input_{$formName}_{$field['alias']}").value = response;
     }
 </script>
-<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src="https://hcaptcha.com/1/api.js"></script>
 JSELEMENT;
 
 $html = <<<HTML
     {$jsElement}
 	<div $containerAttr>
         {$label}
-	    <div class="g-recaptcha" data-sitekey="{$field['customParameters']['site_key']}" data-callback="verifyCallback_{$hashedFormName}"></div>
+	    <div class="h-captcha" data-sitekey="{$field['customParameters']['site_key']}" data-callback="verifyCallback_{$hashedFormName}"></div>
         <input $inputAttr type="hidden">
         <span class="mauticform-errormsg" style="display: none;"></span>
     </div>
