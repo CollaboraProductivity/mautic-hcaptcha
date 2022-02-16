@@ -17,8 +17,9 @@ Licensed under GNU General Public License v3.0.
 Execute `composer require collabora/mautic3-hcaptcha` in the main directory of the mautic installation.
 
 ## Installation via .zip
+
 1. Download the [master.zip](https://github.com/collaboraproductivity/mautic-hcaptcha/archive/mautic3-hcaptcha.zip), extract it into the `plugins/` directory and rename the new directory to `MauticHcaptchaBundle`.
-2. Clear the cache via console command `php app/console cache:clear --env=prod` (might take a while) *OR* manually delete the `app/cache/prod` directory.
+2. Clear the cache via console command `php bin/console cache:clear --env=prod` (might take a while) *OR* manually delete the `app/cache/prod` directory.
 
 ## Configuration
 
